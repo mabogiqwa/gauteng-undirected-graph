@@ -12,7 +12,7 @@ struct Node
 typedef Node* NodePtr;
 
 void add_node_to_list(NodePtr &currentNode, double distance);
-
+//Postcondition: Adds a new node to a FIFO data structure 
 int main()
 {
     Node* listArray[SIZE] = {nullptr};
