@@ -125,6 +125,80 @@ int main()
     add_node_to_list(head12, 5.5); //(11,8)
     add_node_to_list(head12, 9.1); //(11,12)
 
+    //Rayton
+    listArray[12] = new Node{12, nullptr};
+    NodePtr head13 = listArray[12];
+
+    add_node_to_list(head13, 41.9); //(12,10)
+    add_node_to_list(head13, 9.1); //(12,11)
+    add_node_to_list(head13, 33.5); //(12,13)
+    add_node_to_list(head13, 60.2); //(12,14)
+    add_node_to_list(head13, 31.4); //(12,15)
+    add_node_to_list(head13, 57.7); //(12,17)
+    add_node_to_list(head13, 60); //(12,18)
+    add_node_to_list(head13, 53.9); //(12,22)
+    add_node_to_list(head13, 69.2); //(12,23)
+
+    //Ekangala
+    listArray[13] = new Node{13, nullptr};
+    NodePtr head14 = listArray[13];
+
+    add_node_to_list(head14, 29.9); //(13,6)
+    add_node_to_list(head14, 33.5); //(13,12)
+    add_node_to_list(head14, 19.6); //(13,15)
+
+    //Centurion
+    listArray[14] = new Node{14, nullptr};
+    NodePtr head15 = listArray[14];
+
+    add_node_to_list(head15, 34); //(14,9)
+    add_node_to_list(head15, 15.1); //(14,10)
+    add_node_to_list(head15, 60.2); //(14,12)
+    add_node_to_list(head15, 26.2); //(14,16)
+    add_node_to_list(head15, 40.5); //(14,17)
+    add_node_to_list(head15, 52.5); //(14, 19)
+    add_node_to_list(head15, 48.3); //(14, 21)
+
+    //Bronkhorstspruit
+    listArray[15] = new Node{15, nullptr};
+    NodePtr head16 = listArray[15];
+
+    add_node_to_list(head16, 31.4); //(15,12)
+    add_node_to_list(head16, 19.6); //(15,13)
+    add_node_to_list(head16, 68.2); //(15,18)
+    add_node_to_list(head16, 70.4); //(15,22)
+    add_node_to_list(head16, 68.7); //(15,23)
+
+    //Midrand
+    listArray[16] = new Node{16, nullptr};
+    NodePtr head17 = listArray[16];
+
+    add_node_to_list(head17, 26.2); //(16,14)
+    add_node_to_list(head17, 21.5); //(16,17)
+    add_node_to_list(head17, 15.6); //(16,20)
+
+    //Tembisa
+    listArray[17] = new Node{17, nullptr};
+    NodePtr head18 = listArray[17];
+
+    add_node_to_list(head18, 57.7); //(17,12)
+    add_node_to_list(head18, 40.5); //(17,14)
+    add_node_to_list(head18, 21.5); //(17,16)
+    add_node_to_list(head18, 12.4); //(17,18)
+    add_node_to_list(head18, 25.4); //(17,20)
+
+    //Kempton Park
+    listArray[18] = new Node{18, nullptr};
+    NodePtr head19 = listArray[18];
+
+    add_node_to_list(head19, 60); //(18,12)
+    add_node_to_list(head19, 68.2); //(18,15)
+    add_node_to_list(head19, 12.4); //(18,17)
+    add_node_to_list(head19, 19.3); //(18,20)
+    add_node_to_list(head19, 29); //(18,22)
+    add_node_to_list(head19, 39.2); //(18,25)
+
+
     return 0;
 }
 
