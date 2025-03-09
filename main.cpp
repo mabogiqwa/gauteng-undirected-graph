@@ -20,14 +20,19 @@ int main()
     listArray[0] = new Node{0, nullptr};
     NodePtr head1 = listArray[0];
 
-    add_node_to_list(head1, 22);
-    add_node_to_list(head1, 6.6);
-    add_node_to_list(head1, 36.2);
+    add_node_to_list(head1, 22); //(0,1)
+    add_node_to_list(head1, 6.6); //(0,2)
+    add_node_to_list(head1, 36.2); //(0,3)
 
-    for (NodePtr tempPtr = listArray[0]->link; tempPtr != nullptr; tempPtr = tempPtr->link)
-    {
-        std::cout << tempPtr->distance << " ";
-    }
+    listArray[1] = new Node{1, nullptr};
+    NodePtr head2 = listArray[1];
+
+    add_node_to_list(head2, 22); //(1, 0)
+    add_node_to_list(head2, 30.2); //(1,2)
+    add_node_to_list(head2, 10.4); //(1,3)
+    add_node_to_list(head2, 14); //(1,4)
+    add_node_to_list(head2, 51.3); //(1,5)
+
 
     return 0;
 }
