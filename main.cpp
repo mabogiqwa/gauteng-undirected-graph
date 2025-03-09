@@ -198,6 +198,133 @@ int main()
     add_node_to_list(head19, 29); //(18,22)
     add_node_to_list(head19, 39.2); //(18,25)
 
+    //Randburg
+    listArray[19] = new Node{19, nullptr};
+    NodePtr head20 = listArray[19];
+
+    add_node_to_list(head20, 52.5); //(19,14)
+    add_node_to_list(head20, 15.7); //(19,20)
+    add_node_to_list(head20, 12.6); //(19,21)
+
+    //Sandton
+    listArray[20] = new Node{20, nullptr};
+    NodePtr head21 = listArray[20];
+
+    add_node_to_list(head21, 15.6); //(20,16)
+    add_node_to_list(head21, 25.4); //(20,17)
+    add_node_to_list(head21, 19.3); //(20,18)
+    add_node_to_list(head21, 15.7); //(20,19)
+    add_node_to_list(head21, 36.8); //(20,25)
+
+    //Roodepoort
+    listArray[21] = new Node{21, nullptr};
+    NodePtr head22 = listArray[21];
+
+    add_node_to_list(head22, 12.6); //(21,19)
+    add_node_to_list(head22, 16.2); //(21,22)
+    add_node_to_list(head22, 38.2); //(21,26)
+    add_node_to_list(head22, 15.9); //(21,27)
+
+    //Krugersdorp
+    listArray[22] = new Node{22, nullptr};
+    NodePtr head23 = listArray[22];
+
+    add_node_to_list(head23, 62.6); //(22,9)
+    add_node_to_list(head23, 48.3); //(22,14)
+    add_node_to_list(head23, 16.2); //(22,21)
+    add_node_to_list(head23, 14.5); //(22,28)
+
+    //Benoni
+    listArray[23] = new Node{23, nullptr};
+    NodePtr head24 = listArray[23];
+
+    add_node_to_list(head24, 53.9); //(23,12)
+    add_node_to_list(head24, 70.4); //(23,15)
+    add_node_to_list(head24, 29); //(23,18)
+    add_node_to_list(head24, 19.7); //(23,24)
+    add_node_to_list(head24, 24.8); //(23,25)
+
+    //Springs
+    listArray[24] = new Node{24, nullptr};
+    NodePtr head25 = listArray[24];
+
+    add_node_to_list(head25, 69.2); //(24,12)
+    add_node_to_list(head25, 68.7); //(24,15)
+    add_node_to_list(head25, 19.7); //(24,23)
+    add_node_to_list(head25, 21.2); //(24,25)
+    add_node_to_list(head25, 90.7); //(24,31)
+
+    //Boksburg
+    listArray[25] = new Node{25, nullptr};
+    NodePtr head26 = listArray[25];
+
+    add_node_to_list(head26, 24.8); //(25,23)
+    add_node_to_list(head26, 21.2); //(25,24)
+    add_node_to_list(head26, 22.6); //(25,26)
+
+    //Alberton
+    listArray[26] = new Node{26, nullptr};
+    NodePtr head27 = listArray[26];
+
+    add_node_to_list(head27, 39.2); //(26,18)
+    add_node_to_list(head27, 36.8); //(26,20)
+    add_node_to_list(head27, 38.2); //(26,21)
+    add_node_to_list(head27, 22.6); //(26,25)
+    add_node_to_list(head27, 81.9); //(26,30)
+    add_node_to_list(head27, 45.4); //(26,31)
+
+    //Soweto
+    listArray[27] = new Node{27, nullptr};
+    NodePtr head28 = listArray[27];
+
+    add_node_to_list(head28, 15.9); //(27,21)
+    add_node_to_list(head28, 38.6); //(27,26)
+    add_node_to_list(head28, 24.2); //(27,28)
+    add_node_to_list(head28, 53.1); //(27,29)
+    add_node_to_list(head28, 53.7); //(27,30)
+
+    //Randfontein
+    listArray[28] = new Node{28, nullptr};
+    NodePtr head29 = listArray[28];
+
+    add_node_to_list(head29, 14.5); //(28,22)
+    add_node_to_list(head29, 24.2); //(28,27)
+    add_node_to_list(head29, 39.6); //(28,29)
+
+    //Carltonville
+    listArray[29] = new Node{29, nullptr};
+    NodePtr head30 = listArray[29];
+
+    add_node_to_list(head30, 53.1); //(29,27)
+    add_node_to_list(head30, 39.6); //(29,28)
+    add_node_to_list(head30, 17.7); //(29,30)
+
+    //Fochville
+    listArray[30] = new Node{30, nullptr};
+    NodePtr head31 = listArray[30];
+
+    add_node_to_list(head31, 81.9); //(30,26)
+    add_node_to_list(head31, 53.7); //(30,27)
+    add_node_to_list(head31, 17.7); //(30,29)
+    add_node_to_list(head31, 63.4); //(30,31)
+    add_node_to_list(head31, 53.4); //(30,32)
+
+    //Vereeniging
+    listArray[31] = new Node{31, nullptr};
+    NodePtr head32 = listArray[31];
+
+    add_node_to_list(head32, 90.7); //(31,24)
+    add_node_to_list(head32, 45.4); //(31,26)
+    add_node_to_list(head32, 63.4); //(31,30)
+    add_node_to_list(head32, 23); //(31,32)
+
+    //Vanderbijlpark
+    listArray[32] = new Node{32, nullptr};
+    NodePtr head33 = listArray[32];
+
+    add_node_to_list(head33, 53.4); //(32,30)
+    add_node_to_list(head33, 23); //(32,31)
+
 
     return 0;
 }
