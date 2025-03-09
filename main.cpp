@@ -7,6 +7,7 @@
 const int SIZE = 33;
 struct Node
 {
+    int destination;
     double distance;
     Node *link;
 };
@@ -51,10 +52,11 @@ void print_data(Node** listArray)
     }
 }
 
-void add_node_to_list(NodePtr &currentNode, double distance)
+void add_node_to_list(NodePtr &currentNode, int destination double distance)
 {
     //This creates a FIFO data structure
     NodePtr tempPtr = new Node;
+    tempPtr->destination = destination;
     tempPtr->distance = distance;
     currentNode->link = tempPtr;
     currentNode = tempPtr;
@@ -64,14 +66,14 @@ void add_node_to_list(NodePtr &currentNode, double distance)
 void create_gauteng_graph(Node** listArray)
 {
     //Temba
-    listArray[0] = new Node{22, nullptr}; //(0,1)
+    listArray[0] = new Node{1, 22, nullptr}; //(0,1) Temba->Sosha
     NodePtr head1 = listArray[0];
 
-    add_node_to_list(head1, 6.6); //(0,2)
-    add_node_to_list(head1, 36.2); //(0,3)
+    add_node_to_list(head1, 2, 6.6); //(0,2) Temba->Hammanskraal
+    add_node_to_list(head1, 3, 36.2); //(0,3) Temba->Winterveld
 
     //Soshanguve
-    listArray[1] = new Node{22, nullptr}; //(1, 0)
+    listArray[1] = new Node{0, 22, nullptr}; //(1,0) Sosha->Temba
     NodePtr head2 = listArray[1];
 
     add_node_to_list(head2, 30.2); //(1,2)
