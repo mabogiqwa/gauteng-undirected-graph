@@ -17,8 +17,12 @@ void add_node_to_list(NodePtr &currentNode, int destination, double distance);
 //Postcondition: Adds a new node to a FIFO data structure
 
 void create_gauteng_graph(Node** listArray);
+//Postcondition: Stores data related to the Gauteng province into a graph. A graph
+//in this instance is represented as an array of linked lists. Each index being a location
 
 void print_data(Node** listArray);
+//Postcondition: Prints the data stores in the graph. The data is the distances between
+//locations
 
 int main()
 {
