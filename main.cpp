@@ -17,13 +17,40 @@ void add_node_to_list(NodePtr &currentNode, double distance);
 
 void create_gauteng_graph(Node** listArray);
 
+void print_data(Node** listArray);
+
 int main()
 {
     Node* listArray[SIZE] = {nullptr};
 
     create_gauteng_graph(listArray);
 
+    print_data(listArray);
+
     return 0;
+}
+
+void print_data(Node** listArray)
+{
+    NodePtr tempPtr;
+    int index;
+
+    std::string provinceNames[SIZE+1] = {"Temba","Soshanguve","Hammanskraal","Winterveld","Klipgat","Roodeplaat","Refilwe","Mabopane","Ga-Rankuwa","Hartbeespoort","Pretoria",
+                                 "Cullinan","Rayton","Ekangala","Centurion","Bronkhorspruit","Midrand","Tembisa","Kempton Park","Randburg","Sandton","Roodepoort","Krugersdorp",
+                                 "Benoni","Springs","Boksburg","Alberton","Soweto","Randfontein","Carltonville","Fochville","Vereeniging","Vanderbijlpark"};
+
+
+    index = 0;
+    for (int i = 0; i < SIZE; i++)
+    {
+        std::cout << provinceNames[index] << ": ";
+        for (tempPtr = listArray[i]; tempPtr != nullptr; tempPtr=tempPtr->link)
+        {
+            std::cout << tempPtr->distance << " ";
+        }
+        index = index + 1;
+        std::cout << std::endl;
+    }
 }
 
 void add_node_to_list(NodePtr &currentNode, double distance)
