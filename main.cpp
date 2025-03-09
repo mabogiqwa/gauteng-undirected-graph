@@ -3,6 +3,10 @@
 //Gauteng map
 //Gonna rename the Node struct into Edge
 #include <iostream>
+#include <limits>
+#include <queue>
+#include <vector>
+#include <iomanip>
 
 const int SIZE = 33;
 struct Node
@@ -20,6 +24,10 @@ void create_gauteng_graph(Node** listArray);
 //Postcondition: Stores data related to the Gauteng province into a graph. A graph
 //in this instance is represented as an array of linked lists. Each index being a location
 
+void dijkstra(Node** listArray, int start, int end);
+
+void print_path(const std::vector<int>& parent, int end);
+
 void print_data(Node** listArray);
 //Postcondition: Prints the data stores in the graph. The data is the distances between
 //locations
@@ -27,10 +35,20 @@ void print_data(Node** listArray);
 int main()
 {
     Node* listArray[SIZE] = {nullptr};
+    int start, end;
 
     create_gauteng_graph(listArray);
 
-    print_data(listArray);
+    std::cout << "Enter the start location from 0-32: ";
+    std::cin >> start;
+    std::cout << "Enter the destination location from 0-32: ";
+    std::cin >> end;
+
+    std::string provinceNames[SIZE+1] = {"Temba","Soshanguve","Hammanskraal","Winterveld","Klipgat","Roodeplaat","Refilwe","Mabopane","Ga-Rankuwa","Hartbeespoort","Pretoria",
+                                 "Cullinan","Rayton","Ekangala","Centurion","Bronkhorspruit","Midrand","Tembisa","Kempton Park","Randburg","Sandton","Roodepoort","Krugersdorp",
+                                 "Benoni","Springs","Boksburg","Alberton","Soweto","Randfontein","Carltonville","Fochville","Vereeniging","Vanderbijlpark"};
+    dijkstra(listArray, start, end);
+
 
     return 0;
 }
@@ -65,6 +83,82 @@ void add_node_to_list(NodePtr &currentNode, int destination, double distance)
     currentNode->link = tempPtr;
     currentNode = tempPtr;
     tempPtr->link = nullptr;
+}
+
+void dijkstra(Node** listArray, int start, int end)
+{
+    const double INF = std::numeric_limits<double>::infinity(); //defines infinity
+
+    std::vector<double> distance(SIZE, INF);
+
+    std::vector<int> parent(SIZE, -1);
+
+    std::vector<bool> visited(SIZE, false);
+
+    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>, std::greater<std::pair<double, int>>> priorityQueue;
+
+    distance[start] = 0;
+
+    priorityQueue.push(std::make_pair(0.0, start));
+
+    while (!priorityQueue.empty())
+    {
+        int u = priorityQueue.top().second;
+        priorityQueue.pop();
+
+        if (u == end)
+            break;
+
+        if (visited[u])
+            continue;
+
+        visited[u] = true;
+
+        for (NodePtr temp = listArray[u]; temp != nullptr; temp = temp->link)
+        {
+            int v = temp->destination;
+            double weight = temp->distance;
+
+            if (!visited[v] && distance[u] + weight < distance[v])
+            {
+                distance[v] = distance[u] + weight;
+                parent[v] = u;
+                priorityQueue.push(std::make_pair(distance[v], v));
+            }
+        }
+    }
+
+    std::string provinceNames[SIZE+1] = {"Temba","Soshanguve","Hammanskraal","Winterveld","Klipgat","Roodeplaat","Refilwe","Mabopane","Ga-Rankuwa","Hartbeespoort","Pretoria",
+                                 "Cullinan","Rayton","Ekangala","Centurion","Bronkhorspruit","Midrand","Tembisa","Kempton Park","Randburg","Sandton","Roodepoort","Krugersdorp",
+                                 "Benoni","Springs","Boksburg","Alberton","Soweto","Randfontein","Carltonville","Fochville","Vereeniging","Vanderbijlpark"};
+
+    if (distance[end] == INF)
+    {
+        std::cout << "No path exists from " << provinceNames[start] << " to " << provinceNames[end] << std::endl;
+    } else {
+        std::cout << "Shortest distance from " << provinceNames[start] << " to " << provinceNames[end] << " is " << std::fixed << std::setprecision(1) << distance[end] << " km "  << std::endl;
+
+        std::cout << "Path: ";
+        print_path(parent, end);
+        std::cout << std::endl;
+    }
+}
+
+void print_path(const std::vector<int>& parent, int end)
+{
+    std::string provinceNames[SIZE+1] = {"Temba","Soshanguve","Hammanskraal","Winterveld","Klipgat","Roodeplaat","Refilwe","Mabopane","Ga-Rankuwa","Hartbeespoort","Pretoria",
+                                 "Cullinan","Rayton","Ekangala","Centurion","Bronkhorspruit","Midrand","Tembisa","Kempton Park","Randburg","Sandton","Roodepoort","Krugersdorp",
+                                 "Benoni","Springs","Boksburg","Alberton","Soweto","Randfontein","Carltonville","Fochville","Vereeniging","Vanderbijlpark"};
+
+    if (parent[end] == -1)
+    {
+        std::cout << provinceNames[end];
+        return;
+    }
+
+    print_path(parent, parent[end]);
+
+    std::cout << " -> " << provinceNames[end];
 }
 
 void create_gauteng_graph(Node** listArray)
@@ -175,8 +269,8 @@ void create_gauteng_graph(Node** listArray)
     add_node_to_list(head13, 15, 31.4); //(12,15)
     add_node_to_list(head13, 17, 57.7); //(12,17)
     add_node_to_list(head13, 18, 60); //(12,18)
-    add_node_to_list(head13, 22, 53.9); //(12,22)
-    add_node_to_list(head13, 23, 69.2); //(12,23)
+    add_node_to_list(head13, 23, 53.9); //(12,22)
+    add_node_to_list(head13, 24, 69.2); //(12,23)
 
     //Ekangala
     listArray[13] = new Node{6, 29.9, nullptr}; //(13,6)
@@ -194,7 +288,7 @@ void create_gauteng_graph(Node** listArray)
     add_node_to_list(head15, 16, 26.2); //(14,16)
     add_node_to_list(head15, 17, 40.5); //(14,17)
     add_node_to_list(head15, 19, 52.5); //(14, 19)
-    add_node_to_list(head15, 21, 48.3); //(14, 21)
+    add_node_to_list(head15, 22, 48.3); //(14, 21)
 
     //Bronkhorstspruit
     listArray[15] = new Node{12, 31.4, nullptr}; //(15,12)
@@ -202,8 +296,8 @@ void create_gauteng_graph(Node** listArray)
 
     add_node_to_list(head16, 13, 19.6); //(15,13)
     add_node_to_list(head16, 18, 68.2); //(15,18)
-    add_node_to_list(head16, 22, 70.4); //(15,22)
-    add_node_to_list(head16, 23, 68.7); //(15,23)
+    add_node_to_list(head16, 23, 70.4); //(15,22)
+    add_node_to_list(head16, 24, 68.7); //(15,23)
 
     //Midrand
     listArray[16] = new Node{14, 26.2, nullptr}; //(16,14)
@@ -228,8 +322,8 @@ void create_gauteng_graph(Node** listArray)
     add_node_to_list(head19, 15, 68.2); //(18,15)
     add_node_to_list(head19, 17, 12.4); //(18,17)
     add_node_to_list(head19, 20, 19.3); //(18,20)
-    add_node_to_list(head19, 22, 29); //(18,22)
-    add_node_to_list(head19, 25, 39.2); //(18,25)
+    add_node_to_list(head19, 23, 29); //(18,22)
+    add_node_to_list(head19, 26, 39.2); //(18,25)
 
     //Randburg
     listArray[19] = new Node{14, 52.5, nullptr}; //(19,14)
@@ -245,7 +339,7 @@ void create_gauteng_graph(Node** listArray)
     add_node_to_list(head21, 17, 25.4); //(20,17)
     add_node_to_list(head21, 18, 19.3); //(20,18)
     add_node_to_list(head21, 19, 15.7); //(20,19)
-    add_node_to_list(head21, 25, 36.8); //(20,25)
+    add_node_to_list(head21, 26, 36.8); //(20,25)
 
     //Roodepoort
     listArray[21] = new Node{19, 12.6, nullptr}; //(21,19)
