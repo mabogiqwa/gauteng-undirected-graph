@@ -1,6 +1,7 @@
 //Source code for the graph that will contain
 //data related to the distances between locations in
 //Gauteng map
+//Gonna rename the Node struct into Edge
 #include <iostream>
 
 const int SIZE = 32;
@@ -13,10 +14,30 @@ typedef Node* NodePtr;
 
 void add_node_to_list(NodePtr &currentNode, double distance);
 //Postcondition: Adds a new node to a FIFO data structure
+
+void create_gauteng_graph(Node** listArray);
+
 int main()
 {
     Node* listArray[SIZE] = {nullptr};
 
+    create_gauteng_graph(listArray);
+
+    return 0;
+}
+
+void add_node_to_list(NodePtr &currentNode, double distance)
+{
+    //This creates a FIFO data structure
+    NodePtr tempPtr = new Node;
+    tempPtr->distance = distance;
+    currentNode->link = tempPtr;
+    currentNode = tempPtr;
+    tempPtr->link = nullptr;
+}
+
+void create_gauteng_graph(Node** listArray)
+{
     //Temba
     listArray[0] = new Node{0, nullptr};
     NodePtr head1 = listArray[0];
@@ -325,16 +346,4 @@ int main()
     add_node_to_list(head33, 53.4); //(32,30)
     add_node_to_list(head33, 23); //(32,31)
 
-
-    return 0;
-}
-
-void add_node_to_list(NodePtr &currentNode, double distance)
-{
-    //This creates a FIFO data structure
-    NodePtr tempPtr = new Node;
-    tempPtr->distance = distance;
-    currentNode->link = tempPtr;
-    currentNode = tempPtr;
-    tempPtr->link = nullptr;
 }
