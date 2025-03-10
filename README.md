@@ -1,5 +1,5 @@
-#Gauteng Map Graph#
-##Project Overview##
+#Gauteng Map Graph
+Project Overview
 
 This project implements a graph data structure to represent distances between various locations in Gauteng, South Africa. The graph is represented as an adjacency list using an array of linked lists. The project includes an implementation of Dijkstra's algorithm to find the shortest path between two locations.
 
