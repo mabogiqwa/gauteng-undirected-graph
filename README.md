@@ -1,9 +1,9 @@
-#Gauteng Map Graph
-Project Overview
+# Gauteng Map Graph
+## Project Overview
 
 This project implements a graph data structure to represent distances between various locations in Gauteng, South Africa. The graph is represented as an adjacency list using an array of linked lists. The project includes an implementation of Dijkstra's algorithm to find the shortest path between two locations.
 
-Features
+## Features
 
 Representation of Gauteng locations as a graph using an adjacency list
 
@@ -15,7 +15,7 @@ Distance data representation in kilometers
 
 Path tracing to display the shortest route between selected locations
 
-Dependencies
+## Dependencies
 
 C++ Standard Library
 
@@ -27,13 +27,13 @@ To compile the program, use the following command in a terminal:
 
  g++ -o gauteng_graph main.cpp
 
-Execution
+## Execution
 
 Run the compiled program using:
 
  ./gauteng_graph
 
-Usage
+## Usage
 
 The program initializes a graph representation of Gauteng with predefined distances.
 
@@ -43,7 +43,7 @@ The program calculates the shortest distance and displays the optimal path.
 
 The output includes the shortest distance and a step-by-step route.
 
-Data Representation
+## Data Representation
 
 Each location is indexed from 0 to 32, corresponding to:
 
@@ -55,7 +55,7 @@ Each location is indexed from 0 to 32, corresponding to:
 ...
 32 - Vanderbijlpark
 
-Functions
+## Functions
 
 void create_gauteng_graph(Node** listArray): Initializes the graph with locations and distances.
 
@@ -67,7 +67,7 @@ void add_node_to_list(NodePtr &currentNode, int destination, double distance): A
 
 void print_data(Node** listArray): Displays the stored graph data.
 
-Future Enhancements
+## Future Enhancements
 
 Extend the graph to include additional locations in Gauteng.
 
@@ -75,6 +75,6 @@ Implement a graphical interface for visualization.
 
 Add real-time traffic data for dynamic shortest path computation.
 
-Author
+## Author
 
 Mabo Giqwa
