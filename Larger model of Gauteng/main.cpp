@@ -1,30 +1,172 @@
 #include <iostream>
+#include <limits>
+#include <queue>
+#include <vector>
 #include <iomanip>
+#include <string>
+#include <algorithm>
 
-const int SIZE = 33;
+const int SIZE = 103;
 
-struct Node
-{
+struct Node {
     int destination;
     double distance;
-    Node *link;
+    Node* link;
 };
+
 typedef Node* NodePtr;
 
-oid add_node_to_list(NodePtr &currentNode, int destination, double distance);
-
+void add_node_to_list(NodePtr& currentNode, int destination, double distance);
 void create_gauteng_graph(Node** listArray);
+std::vector<int> reconstruct_path(const std::vector<int>& previous, int start, int end);
+void print_shortest_path(int start, int end, const std::vector<double>& distances, const std::vector<int>& previous);
+std::pair<std::vector<double>, std::vector<int>> dijkstra(Node** listArray, int numVertices, int start);
 
-int main()
-{
+int main() {
+    const int NUM_VERTICES = SIZE;
+
+    // Initialize adjacency list
+    Node** listArray = new Node*[NUM_VERTICES];
+    for (int i = 0; i < NUM_VERTICES; i++) {
+        listArray[i] = nullptr;
+    }
+
+    int startVertex, endVertex;
+    create_gauteng_graph(listArray);
+
+    std::cout << "Enter the start location from 0-102: ";
+    std::cin >> startVertex;
+    std::cout << "Enter the destination location from 0-102: ";
+    std::cin >> endVertex;
+
+    std::string locations[SIZE] = {"Winterveld","Reefentse","Temba","Klipdrift","Marokoleng","Soshanguve","Hammanskraal","Mabopane","Rosslyn","Ga-Rankuwa",
+                             "Komdraai","Akasia","SMHSU","Wallmannsthal","Atteridgeville","National Zoological Gardens", "Union Buildings","Laudium",
+                             "Pretoria Central","Montana Park","Pebble Rock Village","Baviaanspoort","Refilwe","Ekangala","Roodeplaat","University of Pretoria",
+                             "Sunnyside","Pyramind","University of South Africa","Centurion","Cullinan","Rethabiseng","Wonderboom National Airport","Eldoraigne",
+                             "Zithobeni","Wierdapark","Hennopsdark","Rooihuiskraal","Olievenhourbosch","Noordwyk","Kyalami Grand Prix","Glen Austin","Vorna Valley",
+                             "Bronkhorstspruit","Erasmus","Magaliesig","Paulshof","Sunninghill","Woodmead","Bryanston","Morningside","Lethabong","Kempton Park",
+                             "Sandton","Edenvale","OR Tambo International Airport","Daveyton","Benoni","Melrose Arch","Parktown","Roodepoort","Krugersdorp","Magaliesburg",
+                             "Randfontein","Hillbrow","Kensington","Carletonville","Johannesburg","Witwatersrand University","Germiston","Boksburg","Springs","Rosettenville",
+                             "Fochville","Devon","Brakpan","Johannesburg South","Meadowlands","Dobsonville","Zola","Jabulani","Zondi","Lenasia","Alberton","Vosloorus","Nigel",
+                             "Katlehong","Eikenhof","Thokoza","Vlakfontein","Lawley","Protea Glen","Ennerdale","Orange Farm","Evaton","Three Rivers","Sebokeng","Duncanville",
+                             "Mamelo","Vaal University of Technology","Vaal Marina","North-West University Vaal Campus","Vanderbijlpark"};
+
+    // Call Dijkstra with correct parameters
+    auto result = dijkstra(listArray, NUM_VERTICES, startVertex);
+    std::vector<double> distances = result.first;
+    std::vector<int> previous = result.second;
+
+    // Print the shortest path and distance
+    print_shortest_path(startVertex, endVertex, distances, previous);
+
+    // Print with location names
+    std::vector<int> path = reconstruct_path(previous, startVertex, endVertex);
+    if (!path.empty()) {
+        std::cout << "\nPath with location names:" << std::endl;
+        for (size_t i = 0; i < path.size(); i++) {
+            int locationIndex = path[i];
+            std::cout << locations[locationIndex];
+            if (i < path.size() - 1) {
+                std::cout << " -> ";
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    // Clean up memory
+    for (int i = 0; i < NUM_VERTICES; i++) {
+        NodePtr current = listArray[i];
+        while (current != nullptr) {
+            NodePtr temp = current;
+            current = current->link;  // Fixed: changed "next" to "link"
+            delete temp;
+        }
+    }
+    delete[] listArray;
 
     return 0;
 }
 
+// Implementation of Dijkstra's algorithm
+std::pair<std::vector<double>, std::vector<int>> dijkstra(Node** listArray, int numVertices, int start) {
+    // Vector to store the shortest distance from start to i
+    std::vector<double> dist(numVertices, std::numeric_limits<double>::infinity());
+
+    // Vector to store the previous vertex in the shortest path
+    std::vector<int> previous(numVertices, -1);
+
+    // Priority queue to get the vertex with minimum distance
+    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>, std::greater<std::pair<double, int>>> pq;
+
+    // Distance from start to itself is 0
+    dist[start] = 0;
+    pq.push({0, start});
+
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        double dist_u = pq.top().first;
+        pq.pop();
+
+        // Skip if this is not the latest distance
+        if (dist_u > dist[u]) continue;
+
+        // Visit all the adjacent vertices
+        NodePtr temp = listArray[u];
+        while (temp != nullptr) {
+            int v = temp->destination;
+            double weight = temp->distance;
+
+            // If there is a shorter path to v through u
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                previous[v] = u;
+                pq.push({dist[v], v});
+            }
+            temp = temp->link;
+        }
+    }
+
+    return {dist, previous};
+}
+
+// Function to reconstruct the path from start to end
+std::vector<int> reconstruct_path(const std::vector<int>& previous, int start, int end) {
+    std::vector<int> path;
+    for (int at = end; at != -1; at = previous[at]) {
+        path.push_back(at);
+    }
+    std::reverse(path.begin(), path.end());
+
+    // Check if there's a path
+    if (path.size() <= 1 || path[0] != start) {
+        return {}; // No path exists
+    }
+
+    return path;
+}
+
+// Print the shortest path and distance
+void print_shortest_path(int start, int end, const std::vector<double>& distances, const std::vector<int>& previous) {
+    if (distances[end] == std::numeric_limits<double>::infinity()) {
+        std::cout << "No path exists from " << start << " to " << end << std::endl;
+        return;
+    }
+
+    std::cout << "Shortest distance from " << start << " to " << end << ": " << distances[end] << " km" << std::endl;
+
+    std::cout << "Path: ";
+    std::vector<int> path = reconstruct_path(previous, start, end);
+    for (size_t i = 0; i < path.size(); i++) {
+        std::cout << path[i];
+        if (i < path.size() - 1) {
+            std::cout << " -> ";
+        }
+    }
+    std::cout << std::endl;
+}
+
 void create_gauteng_graph(Node** listArray)
 {
-    Node* listArray[SIZE] = {nullptr};
-
     //Winterveld
     listArray[0] = new Node{1, 24, nullptr}; //Winterveld->Reefentse
     NodePtr head = listArray[0];
@@ -60,7 +202,7 @@ void create_gauteng_graph(Node** listArray)
     NodePtr head4 = listArray[4];
 
     add_node_to_list(head4, 3, 11);
-    add_node_to_list(head4, 6, 6.6)
+    add_node_to_list(head4, 6, 6.6);
     add_node_to_list(head4, 10, 13);
 
     //Soshanguve
@@ -138,7 +280,7 @@ void create_gauteng_graph(Node** listArray)
     listArray[13] = new Node{10, 16, nullptr};
     NodePtr head13= listArray[13];
 
-    add_node_to_list(head13 11, 29);
+    add_node_to_list(head13, 11, 29);
     add_node_to_list(head13, 15, 29);
     add_node_to_list(head13, 16, 28);
     add_node_to_list(head13, 20, 21);
@@ -155,7 +297,7 @@ void create_gauteng_graph(Node** listArray)
     listArray[15] = new Node{11, 21, nullptr};
     NodePtr head15= listArray[15];
 
-    add_node_to_list(head15 13, 29);
+    add_node_to_list(head15, 13, 29);
     add_node_to_list(head15, 14, 13);
     add_node_to_list(head15, 16, 2.4);
     add_node_to_list(head15, 17, 13);
@@ -421,7 +563,7 @@ void create_gauteng_graph(Node** listArray)
 
     //Morningside
     listArray[50] = new Node{48, 6.1, nullptr};
-    NodePtr head48 = listArray[50];
+    NodePtr head50 = listArray[50];
 
     add_node_to_list(head50, 51, 16);
     add_node_to_list(head50, 58, 9.3);
@@ -429,7 +571,7 @@ void create_gauteng_graph(Node** listArray)
 
     //Lethabong
     listArray[51] = new Node{50, 16, nullptr};
-    NodePtr head48 = listArray[51];
+    NodePtr head51 = listArray[51];
 
     add_node_to_list(head51, 52, 5.1);
     add_node_to_list(head51, 49, 9.4);
@@ -438,7 +580,7 @@ void create_gauteng_graph(Node** listArray)
 
     //Kempton Park
     listArray[52] = new Node{55, 5.9, nullptr};
-    NodePtr head48 = listArray[52];
+    NodePtr head52 = listArray[52];
 
     add_node_to_list(head52, 51, 9.8);
 
@@ -519,82 +661,322 @@ void create_gauteng_graph(Node** listArray)
 
     //Magaliesburg
     listArray[62] = new Node{49, 63, nullptr};
-    NodePtr head48 = listArray[62];
+    NodePtr head62 = listArray[62];
 
     add_node_to_list(head62, 61, 31);
 
     //Randfontein
     listArray[63] = new Node{61, 15, nullptr};
-    NodePtr head63 = listArray[48];
+    NodePtr head63 = listArray[63];
 
     add_node_to_list(head63, 66, 40);
     add_node_to_list(head63, 67, 36);
-    add_node_to_list(head63, 50, 6.1);
-
+    add_node_to_list(head63, 73, 73);
 
     //Hillbrow
+    listArray[64] = new Node{58, 8.2, nullptr};
+    NodePtr head64 = listArray[64];
+
+    add_node_to_list(head64, 59, 2.4);
+    add_node_to_list(head64, 65, 5.6);
+    add_node_to_list(head64, 67, 3.1);
+    add_node_to_list(head64, 68, 3.7);
 
     //Kensington
+    listArray[65] = new Node{54, 15, nullptr};
+    NodePtr head65 = listArray[65];
+
+    add_node_to_list(head65, 64, 5.6);
+    add_node_to_list(head65, 69, 8.4);
+    add_node_to_list(head65, 72, 11);
 
     //Carletonville
+    listArray[66] = new Node{63, 40, nullptr};
+    NodePtr head66 = listArray[66];
+
+    add_node_to_list(head66, 73, 18);
 
     //Johannesburg
+    listArray[67] = new Node{60, 16, nullptr};
+    NodePtr head67 = listArray[67];
+
+    add_node_to_list(head67, 63, 36);
+    add_node_to_list(head67, 64, 3.1);
+    add_node_to_list(head67, 73, 73);
+    add_node_to_list(head67, 76, 14);
+    add_node_to_list(head67, 77, 19);
+    add_node_to_list(head67, 78, 22);
 
     //Wits
+    listArray[68] = new Node{64, 3.7, nullptr};
+    NodePtr head68 = listArray[68];
+
+    add_node_to_list(head68, 72, 11);
+    add_node_to_list(head68, 76, 17);
 
     //Germiston
+    listArray[69] = new Node{55, 17, nullptr};
+    NodePtr head69 = listArray[69];
+
+    add_node_to_list(head69, 65, 8.4);
+    add_node_to_list(head69, 70, 12);
+    add_node_to_list(head69, 72, 18);
+    add_node_to_list(head69, 83, 21);
 
     //Boksburg
+    listArray[70] = new Node{55, 13, nullptr};
+    NodePtr head70 = listArray[70];
+
+    add_node_to_list(head70, 69, 12);
+    add_node_to_list(head70, 71, 23);
+    add_node_to_list(head70, 83, 23);
 
     //Springs
+    listArray[71] = new Node{55, 37, nullptr};
+    NodePtr head71 = listArray[71];
+
+    add_node_to_list(head71, 56, 19);
+    add_node_to_list(head71, 57, 22);
+    add_node_to_list(head71, 70, 23);
+    add_node_to_list(head71, 74, 43);
+    add_node_to_list(head71, 75, 14);
+    add_node_to_list(head71, 85, 21);
 
     //Rosettenville
+    listArray[72] = new Node{65, 11, nullptr};
+    NodePtr head72 = listArray[72];
+
+    add_node_to_list(head72, 68, 11);
+    add_node_to_list(head72, 69, 18);
+    add_node_to_list(head72, 76, 7.5);
+    add_node_to_list(head72, 87, 12);
+    add_node_to_list(head72, 89, 31);
 
     //Fochville
+    listArray[73] = new Node{63, 48, nullptr};
+    NodePtr head73 = listArray[73];
+
+    add_node_to_list(head73, 66, 18);
+    add_node_to_list(head73, 67, 73);
+    add_node_to_list(head73, 79, 53);
+    add_node_to_list(head71, 80, 54);
 
     //Devon
+    listArray[74] = new Node{44, 70, nullptr};
+    NodePtr head74 = listArray[74];
+
+    add_node_to_list(head74, 56, 40);
+    add_node_to_list(head74, 71, 36);
+    add_node_to_list(head74, 85, 73);
+    add_node_to_list(head74, 95, 67); //inaccurate distance
 
     //Brakpan
+    listArray[75] = new Node{71, 14, nullptr};
+    NodePtr head75 = listArray[75];
 
-    //Johannesburg
+    add_node_to_list(head75, 83, 35);
+    add_node_to_list(head75, 84, 23);
+
+    //Johannesburg South
+    listArray[76] = new Node{67, 15, nullptr};
+    NodePtr head76 = listArray[76];
+
+    add_node_to_list(head76, 68, 17);
+    add_node_to_list(head76, 72, 7.5);
+    add_node_to_list(head76, 77, 19);
+    add_node_to_list(head76, 89, 18);
 
     //Meadowlands
+    listArray[77] = new Node{67, 14, nullptr};
+    NodePtr head77 = listArray[77];
+
+    add_node_to_list(head77, 68, 17);
+    add_node_to_list(head77, 72, 7.5);
+    add_node_to_list(head77, 77, 19);
+    add_node_to_list(head77, 89, 18);
 
     //Dobsonville
+    listArray[78] = new Node{67, 22, nullptr};
+    NodePtr head78 = listArray[78];
+
+    add_node_to_list(head78, 79, 22);
+    add_node_to_list(head78, 82, 17);
 
     //Zola
+    listArray[79] = new Node{73, 53, nullptr};
+    NodePtr head79 = listArray[79];
+
+    add_node_to_list(head79, 78, 2.7);
+    add_node_to_list(head79, 80, 2.9);
+    add_node_to_list(head79, 81, 4.2);
 
     //Jabulani
+    listArray[80] = new Node{73, 54, nullptr};
+    NodePtr head80 = listArray[80];
+
+    add_node_to_list(head80, 79, 2.9);
+    add_node_to_list(head80, 81, 3.1);
+    add_node_to_list(head80, 91, 7.8);
 
     //Zondi
+    listArray[81] = new Node{79, 4.2, nullptr};
+    NodePtr head81 = listArray[81];
+
+    add_node_to_list(head81, 80, 3.1);
+    add_node_to_list(head81, 90, 23);
 
     //Lenasia
+    listArray[82] = new Node{81, 23, nullptr};
+    NodePtr head82 = listArray[82];
+
+    add_node_to_list(head82, 82, 9.9);
+    add_node_to_list(head82, 91, 20);
+    add_node_to_list(head82, 92, 5.2);
 
     //Alberton
+    listArray[83] = new Node{69, 21, nullptr};
+    NodePtr head83 = listArray[83];
+
+    add_node_to_list(head83, 70, 23);
+    add_node_to_list(head83, 75, 35);
+    add_node_to_list(head83, 86, 10);
+    add_node_to_list(head83, 87, 25);
+    add_node_to_list(head83, 88, 7.5);
 
     //Vosloorus
+    listArray[84] = new Node{75, 23, nullptr};
+    NodePtr head84 = listArray[84];
+
+    add_node_to_list(head84, 85, 32);
+    add_node_to_list(head84, 86, 8.9);
 
     //Nigel
+    listArray[85] = new Node{71, 21, nullptr};
+    NodePtr head85 = listArray[85];
+
+    add_node_to_list(head85, 74, 44);
+    add_node_to_list(head85, 84, 8.9);
 
     //Katlehong
+    listArray[86] = new Node{83, 10, nullptr};
+    NodePtr head86 = listArray[86];
+
+    add_node_to_list(head86, 84, 8.9);
+    add_node_to_list(head86, 88, 2.5);
 
     //Eikenhof
+    listArray[87] = new Node{72, 12, nullptr};
+    NodePtr head87 = listArray[87];
+
+    add_node_to_list(head87, 83, 25);
+    add_node_to_list(head87, 88, 27);
+    add_node_to_list(head87, 89, 16);
+    add_node_to_list(head87, 93, 29);
 
     //Thokoza
+    listArray[88] = new Node{83, 7.5, nullptr};
+    NodePtr head88 = listArray[88];
+
+    add_node_to_list(head88, 86, 2.5);
+    add_node_to_list(head88, 87, 27);
+    add_node_to_list(head88, 94, 49);
 
     //Vlakfontein
+    listArray[89] = new Node{72, 31, nullptr};
+    NodePtr head89 = listArray[89];
+
+    add_node_to_list(head89, 76, 18);
+    add_node_to_list(head89, 87, 16);
+    add_node_to_list(head89, 92, 7.7);
 
     //Lawley
+    listArray[90] = new Node{81, 23, nullptr};
+    NodePtr head90 = listArray[90];
+
+    add_node_to_list(head90, 82, 9.9);
+    add_node_to_list(head90, 91, 20);
+    add_node_to_list(head90, 92, 5.2);
 
     //Protea
+    listArray[91] = new Node{80, 7.8, nullptr};
+    NodePtr head91 = listArray[91];
+
+    add_node_to_list(head91, 90, 20);
+    add_node_to_list(head91, 94, 48);
 
     //Vlakfontein
+    listArray[92] = new Node{89, 7.7, nullptr};
+    NodePtr head92 = listArray[92];
+
+    add_node_to_list(head92, 90, 5.2);
+    add_node_to_list(head92, 93, 10);
 
     //Orange Farm
+    listArray[93] = new Node{87, 29, nullptr};
+    NodePtr head93 = listArray[93];
+
+    add_node_to_list(head93, 92, 13);
+    add_node_to_list(head93, 94, 10);
+
+    //Evaton
+    listArray[94] = new Node{88, 49, nullptr};
+    NodePtr head94 = listArray[94];
+
+    add_node_to_list(head94, 91, 48);
+    add_node_to_list(head94, 93, 10);
+    add_node_to_list(head94, 96, 3.3);
 
     //Three Rivers
+    listArray[95] = new Node{88, 47, nullptr};
+    NodePtr head95 = listArray[95];
 
+    add_node_to_list(head95, 97, 5.1);
+    add_node_to_list(head95, 100, 39);
 
+    //Sebokeng
+    listArray[96] = new Node{94, 3.3, nullptr};
+    NodePtr head96 = listArray[96];
+
+    add_node_to_list(head96, 99, 13);
+    add_node_to_list(head96, 102, 18);
+
+    //Duncanville
+    listArray[97] = new Node{95, 5.1, nullptr};
+    NodePtr head97 = listArray[97];
+
+    add_node_to_list(head97, 101, 14);
+
+    //Mamelo
+    listArray[98] = new Node{74, 67, nullptr}; //Not an accurate distance
+    NodePtr head98 = listArray[98];
+
+    add_node_to_list(head98, 85, 70);
+    add_node_to_list(head98, 100, 10); //Not an accurate distance
+
+    //VUT
+    listArray[99] = new Node{96, 13, nullptr};
+    NodePtr head99 = listArray[99];
+
+    add_node_to_list(head99, 102, 14);
+
+    //Vaal Marina
+    listArray[100] = new Node{95, 39, nullptr};
+    NodePtr head100 = listArray[100];
+
+    add_node_to_list(head100, 98, 10);
+
+    //NWU Vaal
+    listArray[101] = new Node{97, 14, nullptr};
+    NodePtr head101 = listArray[101];
+
+    add_node_to_list(head101, 102, 9);
+
+    //Vanderbijlpark
+    listArray[102] = new Node{96, 18, nullptr};
+    NodePtr head102 = listArray[102];
+
+    add_node_to_list(head102, 99, 14);
+    add_node_to_list(head102, 101, 9);
 
 }
 
