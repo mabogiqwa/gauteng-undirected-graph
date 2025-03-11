@@ -25,8 +25,8 @@ std::pair<std::vector<double>, std::vector<int>> dijkstra(Node** listArray, int 
 int main() {
     const int NUM_VERTICES = SIZE;
 
-    // Initialize adjacency list
     Node** listArray = new Node*[NUM_VERTICES];
+
     for (int i = 0; i < NUM_VERTICES; i++) {
         listArray[i] = nullptr;
     }
@@ -51,15 +51,12 @@ int main() {
                              "Katlehong","Eikenhof","Thokoza","Vlakfontein","Lawley","Protea Glen","Ennerdale","Orange Farm","Evaton","Three Rivers","Sebokeng","Duncanville",
                              "Mamelo","Vaal University of Technology","Vaal Marina","North-West University Vaal Campus","Vanderbijlpark"};
 
-    // Call Dijkstra with correct parameters
     auto result = dijkstra(listArray, NUM_VERTICES, startVertex);
     std::vector<double> distances = result.first;
     std::vector<int> previous = result.second;
 
-    // Print the shortest path and distance
     print_shortest_path(startVertex, endVertex, distances, previous);
 
-    // Print with location names
     std::vector<int> path = reconstruct_path(previous, startVertex, endVertex);
     if (!path.empty()) {
         std::cout << "\nPath with location names:" << std::endl;
@@ -78,7 +75,7 @@ int main() {
         NodePtr current = listArray[i];
         while (current != nullptr) {
             NodePtr temp = current;
-            current = current->link;  // Fixed: changed "next" to "link"
+            current = current->link;
             delete temp;
         }
     }
@@ -87,18 +84,14 @@ int main() {
     return 0;
 }
 
-// Implementation of Dijkstra's algorithm
 std::pair<std::vector<double>, std::vector<int>> dijkstra(Node** listArray, int numVertices, int start) {
-    // Vector to store the shortest distance from start to i
+
     std::vector<double> dist(numVertices, std::numeric_limits<double>::infinity());
 
-    // Vector to store the previous vertex in the shortest path
     std::vector<int> previous(numVertices, -1);
 
-    // Priority queue to get the vertex with minimum distance
     std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>, std::greater<std::pair<double, int>>> pq;
 
-    // Distance from start to itself is 0
     dist[start] = 0;
     pq.push({0, start});
 
@@ -107,16 +100,13 @@ std::pair<std::vector<double>, std::vector<int>> dijkstra(Node** listArray, int 
         double dist_u = pq.top().first;
         pq.pop();
 
-        // Skip if this is not the latest distance
         if (dist_u > dist[u]) continue;
 
-        // Visit all the adjacent vertices
         NodePtr temp = listArray[u];
         while (temp != nullptr) {
             int v = temp->destination;
             double weight = temp->distance;
 
-            // If there is a shorter path to v through u
             if (dist[u] + weight < dist[v]) {
                 dist[v] = dist[u] + weight;
                 previous[v] = u;
@@ -145,7 +135,6 @@ std::vector<int> reconstruct_path(const std::vector<int>& previous, int start, i
     return path;
 }
 
-// Print the shortest path and distance
 void print_shortest_path(int start, int end, const std::vector<double>& distances, const std::vector<int>& previous) {
     if (distances[end] == std::numeric_limits<double>::infinity()) {
         std::cout << "No path exists from " << start << " to " << end << std::endl;
