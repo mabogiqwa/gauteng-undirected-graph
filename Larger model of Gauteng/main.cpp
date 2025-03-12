@@ -477,8 +477,8 @@ void create_gauteng_graph(Node** listArray)
     listArray[40] = new Node{39, 8, nullptr};
     NodePtr head40 = listArray[40];
 
-    add_node_to_list(head32, 42, 4);
-    add_node_to_list(head32, 47, 5.2);
+    add_node_to_list(head40, 42, 4);
+    add_node_to_list(head40, 47, 5.2);
 
     //Glen Austion
     listArray[41] = new Node{39, 6.4, nullptr};
@@ -746,7 +746,7 @@ void create_gauteng_graph(Node** listArray)
     add_node_to_list(head73, 66, 18);
     add_node_to_list(head73, 67, 73);
     add_node_to_list(head73, 79, 53);
-    add_node_to_list(head71, 80, 54);
+    add_node_to_list(head73, 80, 54);
 
     //Devon
     listArray[74] = new Node{44, 70, nullptr};
