@@ -27,9 +27,7 @@ int main() {
 
     Node** listArray = new Node*[NUM_VERTICES];
 
-    for (int i = 0; i < NUM_VERTICES; i++) {
-        listArray[i] = nullptr;
-    }
+
 
     int startVertex, endVertex;
     create_gauteng_graph(listArray);
@@ -342,7 +340,7 @@ void create_gauteng_graph(Node** listArray)
 
     //Refilwe
     listArray[22] = new Node{20, 27, nullptr};
-    NodePtr head22 = listArray[10];
+    NodePtr head22 = listArray[22];
 
     add_node_to_list(head22, 23, 30);
     add_node_to_list(head22, 30, 5.5);
