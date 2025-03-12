@@ -72,7 +72,7 @@ void print_data(Node** listArray): Displays the stored graph data.
 
 Extend the graph to include additional locations in Gauteng.
 
-Improve the accuracy of the distance over longer distances
+Improve the accuracy of the distance computation over longer distances
 
 Implement a graphical interface for visualization.
 
