@@ -38,6 +38,9 @@ The program calculates the shortest distance and displays the optimal path.
 
 The output includes the shortest distance and a step-by-step route.
 
+## Things to note
+The graph at the moment can be used for education purposes and the error rate of the larger graph ~32% is much higher than the error rate for the smaller graph ~19%.
+
 ## Data Representation for smaller graph
 
 Each location is indexed from 0 to 32, corresponding to: 
