@@ -28,12 +28,6 @@ To compile the program, use the following command in a terminal:
 
 g++ -o gauteng_graph main.cpp
 
-### Execution
-
-Run the compiled program using:
-
-./gauteng_graph
-
 ## Usage
 
 The program initializes a graph representation of Gauteng with predefined distances.
@@ -189,18 +183,6 @@ Each location is indexed from 0 to 102, corresponding to:
 100 - Vaal Marina  
 101 - NWU Vaal  
 102 - Vanderbijlpark  
-
-## Functions
-
-void create_gauteng_graph(Node** listArray): Initializes the graph with locations and distances.
-
-void dijkstra(Node** listArray, int start, int end): Computes the shortest path using Dijkstra's algorithm.
-
-void print_path(const std::vector& parent, int end): Recursively prints the shortest path from start to end.
-
-void add_node_to_list(NodePtr &currentNode, int destination, double distance): Adds a node to the adjacency list.
-
-void print_data(Node** listArray): Displays the stored graph data.
 
 ## Future Enhancements
 
