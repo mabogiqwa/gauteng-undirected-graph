@@ -48,39 +48,39 @@ The output includes the shortest distance and a step-by-step route.
 
 Each location is indexed from 0 to 32, corresponding to: 
 
-0  - Temba
-1  - Soshanguve
-2  - Hammanskraal
-3  - Winterveld
-4  - Klipgat
-5  - Roodeplaat
-6  - Refilwe
-7  - Mabopane
-8  - Ga-Rankuwa
-9  - Hartbeespoort
-10 - Pretoria
-11 - Cullinan
-12 - Rayton
-13 - Ekangala
-14 - Centurion
-15 - Bronkhorstspruit
-16 - Midrand
-17 - Tembisa
-18 - Kempton Park
-19 - Randburg
-20 - Sandton
-21 - Roodepoort
-22 - Krugersdorp
-23 - Benoni
-24 - Springs
-25 - Boksburg
-26 - Alberton
-27 - Soweto
-28 - Randfontein
-29 - Carltonville
-30 - Fochville
-31 - Vereeniging
-32 - Vanderbijlpark
+0  - Temba  
+1  - Soshanguve  
+2  - Hammanskraal  
+3  - Winterveld  
+4  - Klipgat  
+5  - Roodeplaat  
+6  - Refilwe  
+7  - Mabopane  
+8  - Ga-Rankuwa  
+9  - Hartbeespoort  
+10 - Pretoria  
+11 - Cullinan  
+12 - Rayton  
+13 - Ekangala  
+14 - Centurion  
+15 - Bronkhorstspruit  
+16 - Midrand  
+17 - Tembisa  
+18 - Kempton Park  
+19 - Randburg  
+20 - Sandton  
+21 - Roodepoort  
+22 - Krugersdorp  
+23 - Benoni  
+24 - Springs  
+25 - Boksburg  
+26 - Alberton  
+27 - Soweto  
+28 - Randfontein  
+29 - Carltonville  
+30 - Fochville  
+31 - Vereeniging  
+32 - Vanderbijlpark  
 
 ## Data Representation for larger graph
 
