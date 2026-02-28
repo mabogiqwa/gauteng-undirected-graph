@@ -1,7 +1,6 @@
 //Source code for the graph that will contain
 //data related to the distances between locations in
 //Gauteng map
-//Gonna rename the Node struct into Edge
 #include <iostream>
 #include <limits>
 #include <queue>
@@ -25,8 +24,10 @@ void create_gauteng_graph(Node** listArray);
 //in this instance is represented as an array of linked lists. Each index being a location
 
 void dijkstra(Node** listArray, int start, int end);
+//Postcondition: Finds the shortest route between two locations
 
 void print_path(const std::vector<int>& parent, int end);
+//Postcondition: Prints the shortest path
 
 void print_data(Node** listArray);
 //Postcondition: Prints the data stores in the graph. The data is the distances between
